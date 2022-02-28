@@ -110,6 +110,32 @@ def GetOptions_allRnd_0215():
 def GetOptions_allRnd_0317():
     # training options
     opt = Namespace()
+    opt.model = 'swin3d'
+    opt.norm = 'minmax'
+
+    opt.cpu = False
+    opt.multigpu = False
+    opt.undomulti = False
+    opt.device = torch.device('cuda' if torch.cuda.is_available() and not opt.cpu else 'cpu')
+
+    opt.imageSize = 512
+    opt.weights = "model/DIV2K_randomised_3x3_20200317.pth"
+    opt.root = "model/0080.jpg"
+    opt.out = "model/myout"
+
+    opt.task = 'simin_gtout'
+    opt.scale = 1
+    opt.nch_in = 9
+    opt.nch_out = 1
+
+
+    return opt
+
+
+def GetOptions_Swin_2702():
+
+    # training options
+    opt = Namespace()
     opt.model = 'rcan'
     opt.n_resgroups = 3
     opt.n_resblocks = 10
@@ -135,7 +161,6 @@ def GetOptions_allRnd_0317():
 
 
     return opt
-
 
 
 def LoadModel(opt):
