@@ -23,8 +23,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		<!-- <link rel="stylesheet" href="static/assets/css/tingle.min.css"> -->
-		<!-- <script src="static/assets/js/tingle.min.js"></script> -->
+		<link rel="stylesheet" href="static/assets/css/tingle.min.css">
+		<script src="static/assets/js/tingle.min.js"></script>
 
 
 		<link rel="stylesheet" href="static/assets/css/BeerSlider.css">
@@ -38,7 +38,7 @@
 		<style>
 				body {
 					font-family: sans-serif;
-					background-color: #2F534B;
+					background-color: #255568;
 				}
 
 				.file-upload {
@@ -726,7 +726,9 @@
 							</header>
 							<p style="margin-bottom:40px;letter-spacing:7px; font-size: 25px;color: white; font-family:
                                                   'Montserrat',sans-serif;">Spatio-temporal Vision Transformer <br/> for Super-resolution Microscopy</p>
-							<p style="text-transform: none; color:#0087F7" > <a target="_blank" href="https://doi.org/10.1364/BOE.414680">https://doi.org/10.1364/BOE.414680</a> </p>
+                            <p style="text-transform: none;font-style:italic;">The paper is currently in review. A link to the preprint
+                            will be given here shortly.</p>
+							<!-- <p style="text-transform: none; color:#0087F7" > <a target="_blank" href="https://doi.org/10.1364/BOE.414680">https://doi.org/10.1364/BOE.414680</a> </p> -->
 							<ul style="margin-top:100px; padding:30px;" class="actions special">
 									<li><a class="button primary" onclick="uploadImage();">Reconstruct now</a></li>
 							</ul>
@@ -742,14 +744,15 @@
 					<div class="inner">
 						<header class="major">
 							<h2>Read more or try it out now below</h2>
-							<p>The preprint paper describing this method is referenced below. <br> You can see some examples in the bottom of the page.</p>
+							<!-- <p>The preprint paper describing this method is referenced below. <br> You can see some examples in the bottom of the page.</p> -->
 						</header>
-						<div style='display:table;margin-left:auto;margin-right:auto;'>
-						<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">Our new manuscript, VSR-SIM, is now on arXiv: <a href="https://t.co/BQo1VH4NiN">https://t.co/BQo1VH4NiN</a><br>Sadly I won&#39;t get to present the work at <a href="https://twitter.com/FOMconferences?ref_src=twsrc%5Etfw">@FOMconferences</a> this year (<a href="https://twitter.com/hashtag/COVID19?src=hash&amp;ref_src=twsrc%5Etfw">#COVID19</a> 😑), but at least I am happy to provide some non-COVID reading material for those interested. <a href="https://twitter.com/hashtag/ML_SIM?src=hash&amp;ref_src=twsrc%5Etfw">#ML_SIM</a> <a href="https://twitter.com/hashtag/group_laser?src=hash&amp;ref_src=twsrc%5Etfw">#group_laser</a> <a href="https://t.co/Z9XrcOscQy">pic.twitter.com/Z9XrcOscQy</a></p>&mdash; Charles Nicklas Christensen (@charlesnchr) <a href="https://twitter.com/charlesnchr/status/1243519487317626880?ref_src=twsrc%5Etfw">March 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-						</div>
-						<br>
 						<p style='font-size: 30px;'><i style='font-size: 35px;' class="fa fa-github"></i> Get the source code now at <a style="font-weight: bold;" target='_blank' href='http://github.com/charlesnchr/VSR-SIM'>GitHub</a>. </p>
-						<p style="font-style:italic;font-weight: bold;max-width:650px;margin-left:auto;margin-right:auto;">Want to see how it works? <br><span style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own images - simply drop them in the box below. You can also use the <a style='font-weight:bold;font-style:italic;' href='images'>VSR-SIM Test Images</a> that consist of simulated images and data from two distinct microscopes (SLM-based and interferometric, respectively). <br><br> Note that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. </span></p>
+						<p style="font-style:italic;font-weight:
+                        bold;max-width:650px;margin-left:auto;margin-right:auto;">Want to see how it works? <br><span
+                        style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own SIM stacks. 
+                        </p><p>You
+                        can also use the <a style='font-weight:bold;font-style:italic;' href='images'>VSR-SIM Test
+                    Images</a> that consist of simulated images and data from a SLM-based SIM microscopy. <br><br> Note that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. </span></p>
 					</div>
 				</section>
 
@@ -811,36 +814,45 @@
 					<div class="inner">
 						<header class="major">
 							<h2>Examples</h2>
-							<p>See the difference between reconstructions from<br>VSR-SIM and standard wide-field microscopy.</p>
+							<p>See the difference between reconstructions from VSR-SIM and:
+
+                            <div style="display:table;margin-left:auto;margin-right:auto;">
+
+                            <ul style="text-align:left;">
+                                <li>
+                                (a) wide-field projection of
+                            the SIM stack and
+                                </li>
+                                <li>(b) our previous method <a href="http://ml-sim.github.io">ML-SIM</a> </li><li
+                                                               style=" list-style-type:
+                                                               none;font-style:italic;margin-left:30px;"> &#8212; source code also at Github: <a
+                                                                 href='http://github.com/charlesnchr/ML-SIM'>charlesnchr/ML-SIM</a>
+                            </li>
+                            </ul>
+
+                            </div>
+
+                            </p>
 						</header>
 						<div style='display:table;margin-left:auto;margin-right:auto;'>
-							<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">Tried the new machine-learning <a href="https://twitter.com/hashtag/superresolution?src=hash&amp;ref_src=twsrc%5Etfw">#superresolution</a> structured illumination <a href="https://twitter.com/hashtag/microscopy?src=hash&amp;ref_src=twsrc%5Etfw">#microscopy</a> reconstruction algorithm <a href="https://t.co/NgeeUhaTGX">https://t.co/NgeeUhaTGX</a>. Nephrin staining of a kidney comparing widefield and <a href="https://twitter.com/zeiss_micro?ref_src=twsrc%5Etfw">@zeiss_micro</a> + VSR-SIM algorithms. Thanks <a href="https://twitter.com/palankarr?ref_src=twsrc%5Etfw">@palankarr</a> for pointing out! <a href="https://t.co/9AtHprz4wg">https://t.co/9AtHprz4wg</a> <a href="https://t.co/WHh1pgzu6z">pic.twitter.com/WHh1pgzu6z</a></p>&mdash; Florian Siegerist (@Siegerist) <a href="https://twitter.com/Siegerist/status/1244291038472212482?ref_src=twsrc%5Etfw">March 29, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 						</div>
-						<p style="font-style:italic;">Test of VSR-SIM posted on Twitter.</p>
-						<br>
 						<div class="beer-slider" data-beer-label="Wide-field" data-start="50">
-							<img src="static/images/lr_3_magma.png">
+							<img src="static/images/lr_microtubules.png">
 							<div class="beer-reveal" data-beer-label="VSR-SIM">
-								<img src="static/images/sr_3_magma.png">
+								<img src="static/images/sr_microtubules.png">
 							</div>
 						</div>
-						<p style="font-style:italic;">Calibration structured illumination image of beads.</p>
+						<p style="font-style:italic;">Microtubules imaged during sample drift. Motion blur manifests in
+                        the wide-field projection.</p>
 						<br>
-						<div class="beer-slider" data-beer-label="Wide-field" data-start="50">
-							<img src="static/images/lr_2.png">
+						<div class="beer-slider" data-beer-label="ML-SIM" data-start="50">
+							<img src="static/images/mlsim_dogs.png">
 							<div class="beer-reveal" data-beer-label="VSR-SIM">
-								<img src="static/images/sr_2.png">
+								<img src="static/images/sr_dogs.png">
 							</div>
 						</div>
-						<p style="font-style:italic;">Test image with simulated diffraction and illumination patterns.</p>
-						<br>
-						<div class="beer-slider" data-beer-label="Wide-field" data-start="50">
-							<img src="static/images/lr.png">
-							<div class="beer-reveal" data-beer-label="VSR-SIM">
-								<img src="static/images/sr.png">
-							</div>
-						</div>
-						<p style="font-style:italic;">Structured illumination image of endoplasmic reticulum.</p>
+						<p style="font-style:italic;">Simulated SIM image sequence from nature documentary dataset.
+                        Motion blur is reconstructed into motion artefacts.</p>
 					</div>
 				</section>
 
@@ -897,9 +909,6 @@
 
 				<!-- Footer -->
 				<footer id="footer">
-					<!-- <ul class="copyright" style="margin-bottom:0px">
-						<li><a style='cursor:pointer;' onclick="modal.open();">Examples</a></li>
-					</ul> -->
 					<ul class="copyright" style="margin-bottom:0px">
 						<li><a style="cursor: pointer;" onclick="howitworks.open();">Read more</a></li>
 					</ul>
@@ -1019,7 +1028,7 @@ var howitworks = new tingle.modal({
 });
 
 // set content
-howitworks.setContent("<h2>Read more</h2><p>Journal publication: <a target='_blank' href='https://doi.org/10.1364/BOE.414680'>https://doi.org/10.1364/BOE.414680<a/></p><p>Pre-print paper on arXiv: <a target='_blank' href='https://arxiv.org/abs/2003.11064'>https://arxiv.org/abs/2003.11064<a/></p>");
+    howitworks.setContent("<h2>Read more</h2><p> N.B.: the paper is under review. Links will be provided here as soon as possible. In the meantime we post links to our previous method ML-SIM: </p> <p>Journal publication: <a target='_blank' href='https://doi.org/10.1364/BOE.414680'>https://doi.org/10.1364/BOE.414680<a/></p><p>Pre-print paper on arXiv: <a target='_blank' href='https://arxiv.org/abs/2003.11064'>https://arxiv.org/abs/2003.11064<a/></p>");
 
 // add a button
 howitworks.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
