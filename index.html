@@ -310,9 +310,9 @@
 					window.t2 = new Date().getTime();
 					var tdelta = window.t2 - window.t1;
 					// window.t1 = window.t2;
-					var trequired = tdelta*(1-fraction)/(fraction - window.frac1) + 5000;
+					var trequired = tdelta*(1-fraction)/(fraction - window.frac1) + 10000;
 					var tcompleted = tdelta*fraction/(fraction - window.frac1);
-					var ttotal = tdelta/(fraction - window.frac1) + 5000;
+					var ttotal = tdelta/(fraction - window.frac1) + 10000;
 					console.log(trequired,tcompleted,ttotal,fraction,tcompleted/ttotal);
 					window.bar.animate(1.0,{duration: trequired});
 				}
@@ -756,7 +756,7 @@
                         bold;max-width:650px;margin-left:auto;margin-right:auto;">Want to see how it works? <br><span
                         style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own SIM stacks.
                         </p><p>You
-                        can also use the <a style='font-weight:bold;font-style:italic;' href='images'>VSR-SIM Test
+                        can also use the <a style='font-weight:bold;font-style:italic;' href='https://vsr-sim.charles-christensen.com/images'>VSR-SIM Test
                     Images</a> that consist of simulated images and data from a SLM-based SIM microscopy. <br><br> Note that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. </span></p>
 					</div>
 				</section>
