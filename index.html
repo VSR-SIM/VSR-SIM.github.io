@@ -543,6 +543,11 @@
 		}
 
 		function processImage(cmd,file) {
+            // to use the hosted server
+             SERVER_URL = 'https://vsr-sim.charles-christensen.com/'
+            // to use localhost let this variable be empty
+            // SERVER_URL = ''
+
 			window.lastcmd = cmd;
 
 			$('#beer-slider-container .beer-slider').remove();
@@ -559,7 +564,7 @@
 			// $('.file-upload-image').css('opacity','0.2');
 
 			$.post({
-				url: 'https://vsr-sim.charles-christensen.com/testform',
+				url: SERVER_URL + 'testform',
 				data: fd,
 				processData: false,
 				contentType: false,
@@ -583,7 +588,7 @@
 					// $('.file-upload-image').attr('src', 'data:image/jpeg;base64, ' + data);
 					// $('.file-upload-content').css('display','none'); // already hidden
 
-					$('#beer-slider-container').html("<div class='beer-slider' data-beer-label='before' data-start='50' style='display:none;max-width:1000px;margin:0 auto;'> <img id='imgbefore' src=''> <div class='beer-reveal' data-beer-label='after'> <img id='imgafter' src=''> </div> </div>");
+					$('#beer-slider-container').html("<div class='beer-slider' data-beer-label='Wide-field projection' data-start='50' style='display:none;max-width:1000px;margin:0 auto;'> <img id='imgbefore' src=''> <div class='beer-reveal' data-beer-label='VSR-SIM'> <img id='imgafter' src=''> </div> </div>");
 
 					$('#imgafter').on('load',function() {
 
@@ -606,8 +611,8 @@
 							$( "#beer-slider-container .beer-slider" ).each( function( index, el ) {
 								$( el ).BeerSlider( {start: $( el ).data( "start" ) } )
 							});
-						}).attr('src', 'https://vsr-sim.charles-christensen.com/' + data['1']); //attr('src', 'static/images/data/' + data['1'] + '.jpg');
-					}).attr('src', 'https://vsr-sim.charles-christensen.com/' + data['0']); //.attr('src', 'data:image/jpeg;base64, ' + imgs['0']);
+						}).attr('src', SERVER_URL + data['1']); //attr('src', 'static/images/data/' + data['1'] + '.jpg');
+					}).attr('src', SERVER_URL + data['0']); //.attr('src', 'data:image/jpeg;base64, ' + imgs['0']);
 
 				}
 
@@ -749,7 +754,7 @@
 						<p style='font-size: 30px;'><i style='font-size: 35px;' class="fa fa-github"></i> Get the source code now at <a style="font-weight: bold;" target='_blank' href='http://github.com/charlesnchr/VSR-SIM'>GitHub</a>. </p>
 						<p style="font-style:italic;font-weight:
                         bold;max-width:650px;margin-left:auto;margin-right:auto;">Want to see how it works? <br><span
-                        style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own SIM stacks. 
+                        style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own SIM stacks.
                         </p><p>You
                         can also use the <a style='font-weight:bold;font-style:italic;' href='images'>VSR-SIM Test
                     Images</a> that consist of simulated images and data from a SLM-based SIM microscopy. <br><br> Note that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. </span></p>

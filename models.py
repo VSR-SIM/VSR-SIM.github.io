@@ -7,6 +7,7 @@ import torch.nn.functional as F
 import functools # used by RRDBNet
 
 from archs.swin3d_rcab import SwinTransformer3D_RCAB
+from archs.swinir_rcab import SwinIR_RCAB
 
 def GetModel(opt):
     if opt.model.lower() == 'edsr':
@@ -47,9 +48,9 @@ def GetModel(opt):
             patch_size=(3,4,4),
             in_chans=opt.nch_in,
             embed_dim=192,
-            depths=[6, 6, 6, 6, 6],
-            num_heads=[8, 8, 8, 8, 8],
-            window_size=[2, 8, 8],
+            depths=[6,6,6,6,6],
+            num_heads=[8,8,8,8,8],
+            window_size=(2,8,8),
             mlp_ratio=2.,
             qkv_bias=True,
             qk_scale=None,
@@ -58,11 +59,20 @@ def GetModel(opt):
             drop_path_rate=0.2,
             norm_layer=nn.LayerNorm,
             patch_norm=True,
-            upscale=2,
-            img_size=128,
+            upscale=opt.scale,
             frozen_stages=-1,
             use_checkpoint=False,
-            vis=False)
+            vis=False,
+            **opt.model_opts)
+    elif opt.model.lower() == 'swinir_rcab':
+        net = SwinIR_RCAB(
+            opt,
+            img_size=opt.imageSize,
+            in_chans=opt.nch_in,
+            upscale=opt.scale,
+            use_checkpoint=False,
+            vis=False,
+            **opt.model_opts)
     elif opt.model.lower() == 'fourierconvnet':
         net = FourierConvNet()
     else:

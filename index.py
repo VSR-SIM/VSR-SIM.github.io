@@ -12,7 +12,7 @@ import time
 import torch
 
 from NNfunctions import *
-opt = GetOptions_allRnd_0317()
+opt = GetOptions_Swin_2702()
 net = LoadModel(opt)
 # opt = []
 # net = []
@@ -65,7 +65,7 @@ def add_watermark(im):
 
 @app.route("/images")
 def images():
-    return send_file('ML-SIM Test Images.zip',as_attachment=True)
+    return send_file('VSR-SIM Test Images.zip',as_attachment=True)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

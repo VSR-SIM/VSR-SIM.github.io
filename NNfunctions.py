@@ -65,7 +65,7 @@ def GetOptions():
     opt.imageSize = 512
     opt.weights = "model/simrec_simin_gtout_rcan_512_2_ntrain790-final.pth"
     opt.root = "model/0080.jpg"
-    opt.out = "model/myout"
+    opt.out = "model"
 
     opt.task = 'simin_gtout'
     opt.scale = 1
@@ -74,74 +74,12 @@ def GetOptions():
 
 
     return opt
-
-
-def GetOptions_allRnd_0215():
-    # training options
-    opt = Namespace()
-    opt.model = 'rcan'
-    opt.n_resgroups = 3
-    opt.n_resblocks = 10
-    opt.n_feats = 48
-    opt.reduction = 16
-    opt.narch = 0
-    opt.norm = 'adapthist'
-
-    opt.cpu = False
-    opt.multigpu = False
-    opt.undomulti = False
-    opt.device = torch.device('cuda' if torch.cuda.is_available() and not opt.cpu else 'cpu')
-
-    opt.imageSize = 512
-    opt.weights = "model/0216_SIMRec_0214_rndAll_rcan_continued.pth"
-    opt.root = "model/0080.jpg"
-    opt.out = "model/myout"
-
-    opt.task = 'simin_gtout'
-    opt.scale = 1
-    opt.nch_in = 9
-    opt.nch_out = 1
-
-
-    return opt
-
-
-
-def GetOptions_allRnd_0317():
-    # training options
-    opt = Namespace()
-    opt.model = 'swin3d'
-    opt.norm = 'minmax'
-
-    opt.cpu = False
-    opt.multigpu = False
-    opt.undomulti = False
-    opt.device = torch.device('cuda' if torch.cuda.is_available() and not opt.cpu else 'cpu')
-
-    opt.imageSize = 512
-    opt.weights = "model/DIV2K_randomised_3x3_20200317.pth"
-    opt.root = "model/0080.jpg"
-    opt.out = "model/myout"
-
-    opt.task = 'simin_gtout'
-    opt.scale = 1
-    opt.nch_in = 9
-    opt.nch_out = 1
-
-
-    return opt
-
 
 def GetOptions_Swin_2702():
 
     # training options
     opt = Namespace()
-    opt.model = 'rcan'
-    opt.n_resgroups = 3
-    opt.n_resblocks = 10
-    opt.n_feats = 96
-    opt.reduction = 16
-    opt.narch = 0
+    opt.model = 'swinir_rcab'
     opt.norm = 'minmax'
 
     opt.cpu = False
@@ -149,16 +87,22 @@ def GetOptions_Swin_2702():
     opt.undomulti = False
     opt.device = torch.device('cuda' if torch.cuda.is_available() and not opt.cpu else 'cpu')
 
-    opt.imageSize = 512
-    opt.weights = "model/DIV2K_randomised_3x3_20200317.pth"
+    opt.imageSize = 128
+    opt.weights = "model/swinir_rcab_nov2021.pth"
     opt.root = "model/0080.jpg"
-    opt.out = "model/myout"
+    opt.out = "model"
 
     opt.task = 'simin_gtout'
-    opt.scale = 1
+    opt.scale = 2
     opt.nch_in = 9
     opt.nch_out = 1
 
+    opt.model_opts = {"depths":[6, 6, 6, 6, 6],
+        "embed_dim": 64,
+        "window_size": 8,
+        "num_heads": [8,8,8,8,8],
+        "use_rcab": True,
+        "mlp_ratio": 2 }
 
     return opt
 
@@ -172,7 +116,13 @@ def LoadModel(opt):
     checkpoint = torch.load(opt.weights,map_location=opt.device)
 
     if type(checkpoint) is dict:
-        state_dict = checkpoint['state_dict']
+        if 'params_ema' in checkpoint:
+            keyname = 'params_ema'
+        elif 'state_dict' in checkpoint:
+            keyname = 'state_dict'
+        else:
+            keyname = 'params'
+        state_dict = checkpoint[keyname]
     else:
         state_dict = checkpoint
 
@@ -278,13 +228,13 @@ def EvaluateModel(net,opt,stack,outfile):
     inputimg, widefield = prepimg(stack, opt)
 
     if opt.norm == 'convert' or 'minmax' in opt.norm or 'adapthist' in opt.norm:
-        cmap = 'magma'
+        cmap = 'viridis'
     else:
         cmap = 'gray'
 
     # skimage.io.imsave('%s_wf.png' % outfile,(255*widefield.numpy()).astype('uint8'))
     wf = (255*widefield.numpy()).astype('uint8')
-    wf_upscaled = skimage.transform.rescale(wf,1.5,order=3,multichannel=False) # should ideally be done by drawing on client side, in javascript
+    wf_upscaled = skimage.transform.resize(wf,(768,768),order=3) # should ideally be done by drawing on client side, in javascript
     save_image(wf_upscaled,'%s_wf.png' % outfile,cmap)
 
     # skimage.io.imsave('%s.tif' % outfile, inputimg.numpy())
@@ -310,6 +260,6 @@ def EvaluateModel(net,opt,stack,outfile):
     sr_img = exposure.equalize_adapthist(sr_img,clip_limit=0.01)
     skimage.io.imsave('%s.png' % outfile, sr_img) # true out for downloading, no LUT
 
-    sr_img = skimage.transform.rescale(sr_img,1.5,order=3,multichannel=False) # should ideally be done by drawing on client side, in javascript
+    sr_img = skimage.transform.resize(sr_img,(768,768),order=3) # should ideally be done by drawing on client side, in javascript
     save_image(sr_img,'%s_sr.png' % outfile,cmap)
     return outfile + '_sr.png', outfile + '_wf.png', outfile + '.png'
