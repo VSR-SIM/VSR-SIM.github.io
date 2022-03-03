@@ -731,9 +731,9 @@
 							</header>
 							<p style="margin-bottom:40px;letter-spacing:7px; font-size: 25px;color: white; font-family:
                                                   'Montserrat',sans-serif;">Spatio-temporal Vision Transformer <br/> for Super-resolution Microscopy</p>
-                            <p style="text-transform: none;font-style:italic;">The paper is currently in review. A link to the preprint
-                            will be given here shortly.</p>
-							<!-- <p style="text-transform: none; color:#0087F7" > <a target="_blank" href="https://doi.org/10.1364/BOE.414680">https://doi.org/10.1364/BOE.414680</a> </p> -->
+                            <p style="text-transform: none;font-style:italic;">The paper is currently in review. A link
+                            to the preprint:</p>
+							<p style="text-transform: none; color:#0087F7" > <a target="_blank" href="https://arxiv.org/abs/2203.00030">https://arxiv.org/abs/2203.00030</a> </p>
 							<ul style="margin-top:100px; padding:30px;" class="actions special">
 									<li><a class="button primary" onclick="uploadImage();">Reconstruct now</a></li>
 							</ul>
@@ -749,7 +749,8 @@
 					<div class="inner">
 						<header class="major">
 							<h2>Read more or try it out now below</h2>
-							<!-- <p>The preprint paper describing this method is referenced below. <br> You can see some examples in the bottom of the page.</p> -->
+							<p>See the preprint paper for more information on the method. <br> You can see some
+                            example outputs below.</p>
 						</header>
 						<p style='font-size: 30px;'><i style='font-size: 35px;' class="fa fa-github"></i> Get the source code now at <a style="font-weight: bold;" target='_blank' href='http://github.com/charlesnchr/VSR-SIM'>GitHub</a>. </p>
 						<p style="font-style:italic;font-weight:
@@ -757,7 +758,7 @@
                         style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own SIM stacks.
                         </p><p>You
                         can also use the <a style='font-weight:bold;font-style:italic;' href='https://vsr-sim.charles-christensen.com/images'>VSR-SIM Test
-                    Images</a> that consist of simulated images and data from a SLM-based SIM microscopy. <br><br> Note that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. </span></p>
+                    Images</a> that consist of simulated images and data from a SLM-based SIM microscopy. <br> </span></p>
 					</div>
 				</section>
 
@@ -809,6 +810,11 @@
 										</div>
 
 									</div>
+<p style="color:#497370;"> Note
+                that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. Furthermore, batch reconstruction
+                of video sequence SIM data is not supported due to both bandwidth and computational limitations — see
+                the <a href="http://github.com/charlesnchr/VSR-SIM">Github</a> repository to set this up. However, single SIM stacks with motion between frames should benefit
+from the reconstruction with VSR-SIM above. </p>
 						</div>
 					</section>
 
