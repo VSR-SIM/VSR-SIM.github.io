@@ -1,1202 +1,1228 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-154173806-1"></script>
-		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-
-		gtag('config', 'UA-154173806-1');
-		</script>
-
-		<title>VSR-SIM - Spatio-temporal Vision Transformer for Super-resolution Microscopy</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="static/assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="static/assets/css/noscript.css" /></noscript>
-
-		<!-- Scripts -->
-		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,600&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-		<link rel="stylesheet" href="static/assets/css/tingle.min.css">
-		<script src="static/assets/js/tingle.min.js"></script>
-
-
-		<link rel="stylesheet" href="static/assets/css/BeerSlider.css">
-		<script src="static/assets/js/BeerSlider.js"></script>
-		<link rel="stylesheet" href="static/assets/css/jquery.Jcrop.min.css">
-		<script src="static/assets/js/jquery.Jcrop.min.js"></script>
-
-		<script src="static/assets/js/smartcrop.js"></script>
-		<script src="static/assets/js/progressbar.js"></script>
-
-		<style>
-				body {
-					font-family: sans-serif;
-					background-color: #255568;
-				}
-
-				.file-upload {
-					/* width: 600px; */
-					margin: 0 auto;
-					font: inherit;
-					font-size:100%;
-					color: #646C7F;
-				}
-
-				.file-upload-content {
-					display: none;
-					text-align: center;
-				}
-
-				.file-upload-input {
-					position: absolute;
-					display: block;
-					margin: 0;
-					padding: 0;
-					width: 100%;
-					height: 100%;
-					outline: none;
-					opacity: 0;
-					cursor: pointer;
-
-				}
-
-
-				.image-upload-wrap {
-				border: 2px dashed #5eaca6;
-				border-radius: 5px;
-				background: white;
-				max-width: 650px;
-				margin: 0 auto 30px auto;
-				min-height: 250px;
-				position:relative;
-				min-width: 250px;
-				}
-
-				.image-dropping,
-				.image-upload-wrap:hover {
-				border: 2px dashed #5eaca6;
-				border-radius: 5px;
-				max-width: 650px;
-				margin: 0 auto 30px auto;
-				}
-
-				.image-title-wrap {
-					padding: 0 15px 15px 15px;
-					color: #222;
-				}
-
-				.drag-text {
-				text-align: center;
-				/* color: white; */
-				text-shadow: 1px;
-				font-size: 0.9em;
-				margin: 8em 0;
-				/* padding: 4em; */
-				}
-
-				.drag-text h3 {
-				border-radius: 5px;
-				background: white;
-				max-width: 720px;
-				margin: 0 auto 0 auto;
-				}
-
-				.file-upload-image {
-					max-height: 800px;
-					max-width: 950px;
-					margin: auto;
-					padding: 20px;
-				}
-
-				#cropimg {
-					max-height: 80%;
-					max-width: 80%;
-					width: 100%;
-					margin: auto;
-					padding: 20px;
-				}
-
-				#gifdiv {
-					display:none;
-					width:800px;
-					height:800px;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					margin:auto;vertical-align: middle;
-					background:url('static/images/processing.gif') center center no-repeat;
-					background-size: 200px;
-					position:absolute;
-				}
-
-				#progressbar {
-				margin: 0 auto;
-				width: 250px;
-				height: 250px;
-				position:absolute; left:50%;z-index: 5;left:0;right:0;
-				display: none;
-				}
-
-				.tingle-modal {
-					background: rgba(0,0,0,.65);
-				}
-
-
-				/* image grid */
-				.exampleImg {
-					margin: 5%;
-					height: 200px;
-					width: auto;
-					cursor: pointer;
-					background-size: cover;
-					background-repeat: no-repeat;
-					background-position: center;
-				}
-
-				.row {
-				display: flex;
-				flex-wrap: wrap;
-				padding: 0;
-				}
-
-				/* Create four equal columns that sits next to each other */
-				.column {
-				flex: 25%;
-				max-width: 25%;
-				padding: 0;
-				}
-
-				.column img {
-				margin-top: 8px;
-				vertical-align: middle;
-				width: 100%;
-				}
-
-				/* Responsive layout - makes a two column-layout instead of four columns */
-				@media screen and (max-width: 800px) {
-				.column {
-					flex: 50%;
-					max-width: 50%;
-				}
-				}
-
-				/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-				@media screen and (max-width: 600px) {
-				.column {
-					flex: 100%;
-					max-width: 100%;
-				}
-				}
-
-			.signupmodal .tingle-modal-box {
-				background-color:#dfe7e9;
-			}
-
-			.signupmodal .tingle-modal-box__footer {
-				background-color:#dfe7e9;
-			}
-
-			.howitworksmodal {
-				color:rgb(70,70,70);
-			}
-
-			.howitworksmodal h2 {
-				color:rgb(70,70,70);
-			}
-
-			.howitworksmodal img {
-				max-width: 100%;
-			}
-
-
-			.contactmodal {
-				color:rgb(70,70,70);
-			}
-
-			.contactmodal .tingle-modal-box {
-				background-color:#f2f2f2;;
-			}
-
-			.contactmodal .tingle-modal-box__footer {
-				background-color:#f2f2f2;
-			}
-
-			.contactmodal label {
-				color:rgb(70,70,70);
-			}
-
-			.contactmodal ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-			color:rgb(70,70,70);
-			}
-			.contactmodal ::-moz-placeholder { /* Firefox 19+ */
-			color:rgb(70,70,70);
-			}
-			.contactmodal :-ms-input-placeholder { /* IE 10+ */
-			color:rgb(70,70,70);
-			}
-			.contactmodal :-moz-placeholder { /* Firefox 18- */
-			color:rgb(70,70,70);
-			}
-			.contactmodal ::placeholder { /* Firefox 18- */
-			color:rgb(70,70,70);
-			}
-
-			.contactmodal h2 {
-				color:rgb(70,70,70);
-			}
-
-
-			.contactmodal input[type=text], .contactmodal select,.contactmodal textarea {
-			width: 100%;
-			padding: 12px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			box-sizing: border-box;
-			margin-top: 6px;
-			margin-bottom: 16px;
-			resize: vertical;
-			}
-
-			.contactmodal input[type=submit] {
-			background-color: #4CAF50;
-			color: white;
-			padding: 12px 20px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			line-height: 110%;
-			}
-
-			.contactmodal input[type=submit]:hover {
-			background-color: #45a049;
-			}
-
-			.contactmodal .container {
-			border-radius: 5px;
-			background-color: #f2f2f2;
-			padding: 20px;
-			}
-
-		</style>
-
-	<script>
-		window.coords = [];
-		window.cropped = false;
-		window.firstUploadStatus = false;
-		window.frac1 = 0;
-		window.t1 = 0;
-
-		function progress(e){
-
-			if(e.lengthComputable){
-				var max = e.total;
-				var current = e.loaded;
-
-				var fraction = current/max;
-
-				if(!window.firstUploadStatus) {
-					window.firstUploadStatus = true;
-					window.frac1 = fraction;
-					window.t1 = new Date().getTime();
-				} else {
-					window.t2 = new Date().getTime();
-					var tdelta = window.t2 - window.t1;
-					// window.t1 = window.t2;
-					var trequired = tdelta*(1-fraction)/(fraction - window.frac1) + 10000;
-					var tcompleted = tdelta*fraction/(fraction - window.frac1);
-					var ttotal = tdelta/(fraction - window.frac1) + 10000;
-					console.log(trequired,tcompleted,ttotal,fraction,tcompleted/ttotal);
-					window.bar.animate(1.0,{duration: trequired});
-				}
-
-				if(fraction >= 1)
-				{
-					window.firstUploadStatus = false;
-					window.frac1 = 0;
-					window.t1 = 0;
-					console.log('finished uploading');
-				}
-			}
-		}
-
-		function getprogressbar() {
-			var bar = new ProgressBar.Circle(progressbar, {
-			color: '#aaa',
-			// This has to be the same size as the maximum width to
-			// prevent clipping
-			strokeWidth: 6,
-			trailWidth: 2,
-			easing: 'easeOut',
-			duration: 1000,
-			text: {
-				autoStyleContainer: false
-			},
-			from: { color: '#333', width: 2 },
-			to: { color: '#aaa', width: 6 },
-			// Set default step function for all animate calls
-			step: function(state, circle) {
-				circle.path.setAttribute('stroke', state.color);
-				circle.path.setAttribute('stroke-width', state.width);
-
-				var value = Math.round(circle.value() * 100);
-				if (value === 0) {
-				circle.setText('');
-				} else {
-				circle.setText(value);
-				}
-				if (value === 100) {
-					window.loading = false;
-				}
-
-			}
-			});
-			bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
-			bar.text.style.fontSize = '2rem';
-			return bar;
-		}
-
-		function showprogressbar() {
-			$('#progressbar').remove();
-			$('#menubtns').hide();
-			$('#cropdiv').hide();
-
-			$('#file-upload').before("<div id='progressbar'></div>");
-			$('#progressbar').css('display','block');
-
-			window.loading = true;
-
-			window.bar = getprogressbar();
-			window.bar.animate(1,{duration: 10000});
-			// window.bar.animate(1.0);  // Number from 0.0 to 1.0
-		}
-
-		function readimg(elem) {
-			removeUpload();
-
-			var bg = $(elem).css('background-image');
-       		bg = bg.replace('url(','').replace(')','').replace(/\"/gi, "");
-			var img = new Image;
-			img.src = bg;
-
-			var c = document.createElement('canvas');
-			c.width = img.naturalWidth;
-			c.height = img.naturalHeight;
-			console.log(c.width,c.height);
-			var ctx = c.getContext("2d");
-			ctx.drawImage(img, 0,0,c.width,c.height);
-
-			displayImageFromSrc(c.toDataURL("image/jpeg",1));
-		}
-
-		var origImg;
-		window.croptoolShown = false;
-
-		function showCropTool() {
-			if(!window.croptoolShown) {
-				window.croptoolShown = true;
-				jQuery(function($){
-					window.cropped = true;
-					$('#cropdiv').show();
-
-					$('#cropimg').on('load',function(){
-						var jcrop_api;
-						// $('#enhanceBtn').css('display','block');
-
-						$('#cropimg').Jcrop({
-							onChange:   showCoords,
-							onSelect:   showCoords
-							},function(){
-								jcrop_api = this;
-							});
-							jcrop_api.setSelect([
-								Math.floor(window.topcrop.x/this.naturalWidth*$(this).width()),
-								Math.floor(window.topcrop.y/this.naturalHeight*$(this).height()),
-								Math.floor(window.topcrop.x/this.naturalWidth*$(this).width()) + Math.floor(window.topcrop.width/this.naturalWidth*$(this).width()),
-								Math.floor(window.topcrop.y/this.naturalHeight*$(this).height()) + Math.floor(window.topcrop.height/this.naturalHeight*$(this).height())
-							]);
-							jcrop_api.setOptions({ allowSelect: false, allowResize: true, minSize: [10,10], aspectRatio: 1 });
-					}).attr('src',$('.file-upload-image').attr('src'));
-
-
-					function showCoords(c)
-					{
-						var ci = $('#cropimg');
-						window.topcrop.x = Math.floor(c.x/$('#cropimg').width()*ci[0].naturalWidth);
-						window.topcrop.y = Math.floor(c.y/$('#cropimg').height()*ci[0].naturalHeight);
-						window.topcrop.width = Math.floor(c.w/$('#cropimg').width()*ci[0].naturalWidth);
-						window.topcrop.height = Math.floor(c.h/$('#cropimg').height()*ci[0].naturalHeight);
-					};
-				})
-			}
-			else {
-				$('#cropdiv').hide();
-				$('#cropdiv').html("<br><img src='' id='cropimg' alt=''>");
-				window.croptoolShown = false;
-			}
-		}
-
-		function displayImageFromSrc(src) {
-			$('.file-upload-image').on('load',function(){
-				$('.file-upload-image').off('load');
-				var w = document.getElementById('file-upload-image').naturalWidth;
-				var h = document.getElementById('file-upload-image').naturalHeight;
-				var mp = w*h;
-
-				$('#one').css('min-height',$('#one').outerHeight());
-				$('.image-upload-wrap').hide();
-
-				$("html").animate({
-					scrollTop: $("#one").offset().top
-				}, 500,
-				function() {
-					if(mp < 3e5) { //(mp < 200000) {
-						window.topcrop = null;
-						processImage('superres',null);
-					}
-					else {
-						smartcrop.crop(document.getElementById('file-upload-image'), { width: 100, height: 100 }).then(function(result) {
-							console.log(result);
-							window.topcrop = result.topCrop;
-							$('#croptoolBtn').show();
-							processImage('enhance',result.topCrop);
-						});
-					}
-				});
-			}).attr('src', src);
-		}
-
-		function readImageFile(file) {
-			var reader = new FileReader();
-
-			reader.onload = function(e) {
-				$("html").animate({
-					scrollTop: $("#one").offset().top
-				}, 500,
-				function() {
-					processImage('superres',e.target.result);
-				});
-			};
-			reader.readAsDataURL(file);
-		}
-
-		function readURL(input) {
-			if (input.files && input.files[0]) {
-
-				// fd = new FormData();
-				// fd.append( 'file', input.files[0] );
-				$('#one').css('min-height',$('#one').outerHeight());
-				$('.image-upload-wrap').hide();
-
-				$("html").animate({
-					scrollTop: $("#one").offset().top
-				}, 500,
-				function() {
-					processImage('superres',input.files[0]);
-				});
-
-
-			} else {
-				removeUpload();
-			}
-		}
-
-
-		function removeUpload() {
-			$('.file-upload-input').val('');
-			$('.file-upload-content').hide();
-			$('.image-upload-wrap').show();
-
-			$('#topheader').html("<h2 style='color:#497370;'>Perform SIM reconstruction</h2><p style='color:#497370;'>Upload a structured illumination patterned TIFF image.</p>");
-			$('#beer-slider-container .beer-slider').remove();
-			$('#menubtns').hide();
-			$('.file-upload-image').off('load');
-			window.cropped = true;
-			$('#cropdiv').hide();
-			$('#cropdiv').html("<br><img src='' id='cropimg' alt=''>");
-			window.croptoolShown = false;
-
-			$('html').animate({ scrollTop: $('#one').offset().top },500);
-
-		}
-		$('.image-upload-wrap').bind('dragover', function () {
-			$('.image-upload-wrap').addClass('image-dropping');
-		});
-		$('.image-upload-wrap').bind('dragleave', function () {
-			$('.image-upload-wrap').removeClass('image-dropping');
-		});
-
-
-		function revertImage() {
-			$('.file-upload-image').replaceWith(origImg);
-		}
-
-		function sleep(ms) {
-			return new Promise(resolve => setTimeout(resolve, ms));
-		}
-
-		function processImage(cmd,file) {
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154173806-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-154173806-1');
+    </script>
+
+    <title>VSR-SIM - Spatio-temporal Vision Transformer for Super-resolution Microscopy</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="static/assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="static/assets/css/noscript.css" />
+    </noscript>
+
+    <!-- Scripts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="static/assets/css/tingle.min.css">
+    <script src="static/assets/js/tingle.min.js"></script>
+
+
+    <link rel="stylesheet" href="static/assets/css/BeerSlider.css">
+    <script src="static/assets/js/BeerSlider.js"></script>
+    <link rel="stylesheet" href="static/assets/css/jquery.Jcrop.min.css">
+    <script src="static/assets/js/jquery.Jcrop.min.js"></script>
+
+    <script src="static/assets/js/smartcrop.js"></script>
+    <script src="static/assets/js/progressbar.js"></script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #255568;
+        }
+
+        .file-upload {
+            /* width: 600px; */
+            margin: 0 auto;
+            font: inherit;
+            font-size: 100%;
+            color: #646C7F;
+        }
+
+        .file-upload-content {
+            display: none;
+            text-align: center;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            display: block;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            opacity: 0;
+            cursor: pointer;
+
+        }
+
+
+        .image-upload-wrap {
+            border: 2px dashed #5eaca6;
+            border-radius: 5px;
+            background: white;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+            min-height: 250px;
+            position: relative;
+            min-width: 250px;
+        }
+
+        .image-dropping,
+        .image-upload-wrap:hover {
+            border: 2px dashed #5eaca6;
+            border-radius: 5px;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+        }
+
+        .image-title-wrap {
+            padding: 0 15px 15px 15px;
+            color: #222;
+        }
+
+        .drag-text {
+            text-align: center;
+            /* color: white; */
+            text-shadow: 1px;
+            font-size: 0.9em;
+            margin: 8em 0;
+            /* padding: 4em; */
+        }
+
+        .drag-text h3 {
+            border-radius: 5px;
+            background: white;
+            max-width: 720px;
+            margin: 0 auto 0 auto;
+        }
+
+        .file-upload-image {
+            max-height: 800px;
+            max-width: 950px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        #cropimg {
+            max-height: 80%;
+            max-width: 80%;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        #gifdiv {
+            display: none;
+            width: 800px;
+            height: 800px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            vertical-align: middle;
+            background: url('static/images/processing.gif') center center no-repeat;
+            background-size: 200px;
+            position: absolute;
+        }
+
+        #progressbar {
+            margin: 0 auto;
+            width: 250px;
+            height: 250px;
+            position: absolute;
+            left: 50%;
+            z-index: 5;
+            left: 0;
+            right: 0;
+            display: none;
+        }
+
+        .tingle-modal {
+            background: rgba(0, 0, 0, .65);
+        }
+
+
+        /* image grid */
+        .exampleImg {
+            margin: 5%;
+            height: 200px;
+            width: auto;
+            cursor: pointer;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        /* Create four equal columns that sits next to each other */
+        .column {
+            flex: 25%;
+            max-width: 25%;
+            padding: 0;
+        }
+
+        .column img {
+            margin-top: 8px;
+            vertical-align: middle;
+            width: 100%;
+        }
+
+        /* Responsive layout - makes a two column-layout instead of four columns */
+        @media screen and (max-width: 800px) {
+            .column {
+                flex: 50%;
+                max-width: 50%;
+            }
+        }
+
+        /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+            .column {
+                flex: 100%;
+                max-width: 100%;
+            }
+        }
+
+        .signupmodal .tingle-modal-box {
+            background-color: #dfe7e9;
+        }
+
+        .signupmodal .tingle-modal-box__footer {
+            background-color: #dfe7e9;
+        }
+
+        .howitworksmodal {
+            color: rgb(70, 70, 70);
+        }
+
+        .howitworksmodal h2 {
+            color: rgb(70, 70, 70);
+        }
+
+        .howitworksmodal img {
+            max-width: 100%;
+        }
+
+
+        .contactmodal {
+            color: rgb(70, 70, 70);
+        }
+
+        .contactmodal .tingle-modal-box {
+            background-color: #f2f2f2;
+            ;
+        }
+
+        .contactmodal .tingle-modal-box__footer {
+            background-color: #f2f2f2;
+        }
+
+        .contactmodal label {
+            color: rgb(70, 70, 70);
+        }
+
+        .contactmodal ::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            color: rgb(70, 70, 70);
+        }
+
+        .contactmodal ::-moz-placeholder {
+            /* Firefox 19+ */
+            color: rgb(70, 70, 70);
+        }
+
+        .contactmodal :-ms-input-placeholder {
+            /* IE 10+ */
+            color: rgb(70, 70, 70);
+        }
+
+        .contactmodal :-moz-placeholder {
+            /* Firefox 18- */
+            color: rgb(70, 70, 70);
+        }
+
+        .contactmodal ::placeholder {
+            /* Firefox 18- */
+            color: rgb(70, 70, 70);
+        }
+
+        .contactmodal h2 {
+            color: rgb(70, 70, 70);
+        }
+
+
+        .contactmodal input[type=text],
+        .contactmodal select,
+        .contactmodal textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        .contactmodal input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            line-height: 110%;
+        }
+
+        .contactmodal input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        .contactmodal .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+
+    <script>
+        window.coords = [];
+        window.cropped = false;
+        window.firstUploadStatus = false;
+        window.frac1 = 0;
+        window.t1 = 0;
+
+        function progress(e) {
+
+            if (e.lengthComputable) {
+                var max = e.total;
+                var current = e.loaded;
+
+                var fraction = current / max;
+
+                if (!window.firstUploadStatus) {
+                    window.firstUploadStatus = true;
+                    window.frac1 = fraction;
+                    window.t1 = new Date().getTime();
+                } else {
+                    window.t2 = new Date().getTime();
+                    var tdelta = window.t2 - window.t1;
+                    // window.t1 = window.t2;
+                    var trequired = tdelta * (1 - fraction) / (fraction - window.frac1) + 10000;
+                    var tcompleted = tdelta * fraction / (fraction - window.frac1);
+                    var ttotal = tdelta / (fraction - window.frac1) + 10000;
+                    console.log(trequired, tcompleted, ttotal, fraction, tcompleted / ttotal);
+                    window.bar.animate(1.0, {
+                        duration: trequired
+                    });
+                }
+
+                if (fraction >= 1) {
+                    window.firstUploadStatus = false;
+                    window.frac1 = 0;
+                    window.t1 = 0;
+                    console.log('finished uploading');
+                }
+            }
+        }
+
+        function getprogressbar() {
+            var bar = new ProgressBar.Circle(progressbar, {
+                color: '#aaa',
+                // This has to be the same size as the maximum width to
+                // prevent clipping
+                strokeWidth: 6,
+                trailWidth: 2,
+                easing: 'easeOut',
+                duration: 1000,
+                text: {
+                    autoStyleContainer: false
+                },
+                from: {
+                    color: '#333',
+                    width: 2
+                },
+                to: {
+                    color: '#aaa',
+                    width: 6
+                },
+                // Set default step function for all animate calls
+                step: function(state, circle) {
+                    circle.path.setAttribute('stroke', state.color);
+                    circle.path.setAttribute('stroke-width', state.width);
+
+                    var value = Math.round(circle.value() * 100);
+                    if (value === 0) {
+                        circle.setText('');
+                    } else {
+                        circle.setText(value);
+                    }
+                    if (value === 100) {
+                        window.loading = false;
+                    }
+
+                }
+            });
+            bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+            bar.text.style.fontSize = '2rem';
+            return bar;
+        }
+
+        function showprogressbar() {
+            $('#progressbar').remove();
+            $('#menubtns').hide();
+            $('#cropdiv').hide();
+
+            $('#file-upload').before("<div id='progressbar'></div>");
+            $('#progressbar').css('display', 'block');
+
+            window.loading = true;
+
+            window.bar = getprogressbar();
+            window.bar.animate(1, {
+                duration: 10000
+            });
+            // window.bar.animate(1.0);  // Number from 0.0 to 1.0
+        }
+
+        function readimg(elem) {
+            removeUpload();
+
+            var bg = $(elem).css('background-image');
+            bg = bg.replace('url(', '').replace(')', '').replace(/\"/gi, "");
+            var img = new Image;
+            img.src = bg;
+
+            var c = document.createElement('canvas');
+            c.width = img.naturalWidth;
+            c.height = img.naturalHeight;
+            console.log(c.width, c.height);
+            var ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0, c.width, c.height);
+
+            displayImageFromSrc(c.toDataURL("image/jpeg", 1));
+        }
+
+        var origImg;
+        window.croptoolShown = false;
+
+        function showCropTool() {
+            if (!window.croptoolShown) {
+                window.croptoolShown = true;
+                jQuery(function($) {
+                    window.cropped = true;
+                    $('#cropdiv').show();
+
+                    $('#cropimg').on('load', function() {
+                        var jcrop_api;
+                        // $('#enhanceBtn').css('display','block');
+
+                        $('#cropimg').Jcrop({
+                            onChange: showCoords,
+                            onSelect: showCoords
+                        }, function() {
+                            jcrop_api = this;
+                        });
+                        jcrop_api.setSelect([
+                            Math.floor(window.topcrop.x / this.naturalWidth * $(this).width()),
+                            Math.floor(window.topcrop.y / this.naturalHeight * $(this).height()),
+                            Math.floor(window.topcrop.x / this.naturalWidth * $(this).width()) + Math.floor(window.topcrop.width / this.naturalWidth * $(this).width()),
+                            Math.floor(window.topcrop.y / this.naturalHeight * $(this).height()) + Math.floor(window.topcrop.height / this.naturalHeight * $(this).height())
+                        ]);
+                        jcrop_api.setOptions({
+                            allowSelect: false,
+                            allowResize: true,
+                            minSize: [10, 10],
+                            aspectRatio: 1
+                        });
+                    }).attr('src', $('.file-upload-image').attr('src'));
+
+
+                    function showCoords(c) {
+                        var ci = $('#cropimg');
+                        window.topcrop.x = Math.floor(c.x / $('#cropimg').width() * ci[0].naturalWidth);
+                        window.topcrop.y = Math.floor(c.y / $('#cropimg').height() * ci[0].naturalHeight);
+                        window.topcrop.width = Math.floor(c.w / $('#cropimg').width() * ci[0].naturalWidth);
+                        window.topcrop.height = Math.floor(c.h / $('#cropimg').height() * ci[0].naturalHeight);
+                    };
+                })
+            } else {
+                $('#cropdiv').hide();
+                $('#cropdiv').html("<br><img src='' id='cropimg' alt=''>");
+                window.croptoolShown = false;
+            }
+        }
+
+        function displayImageFromSrc(src) {
+            $('.file-upload-image').on('load', function() {
+                $('.file-upload-image').off('load');
+                var w = document.getElementById('file-upload-image').naturalWidth;
+                var h = document.getElementById('file-upload-image').naturalHeight;
+                var mp = w * h;
+
+                $('#one').css('min-height', $('#one').outerHeight());
+                $('.image-upload-wrap').hide();
+
+                $("html").animate({
+                        scrollTop: $("#one").offset().top
+                    }, 500,
+                    function() {
+                        if (mp < 3e5) { //(mp < 200000) {
+                            window.topcrop = null;
+                            processImage('superres', null);
+                        } else {
+                            smartcrop.crop(document.getElementById('file-upload-image'), {
+                                width: 100,
+                                height: 100
+                            }).then(function(result) {
+                                console.log(result);
+                                window.topcrop = result.topCrop;
+                                $('#croptoolBtn').show();
+                                processImage('enhance', result.topCrop);
+                            });
+                        }
+                    });
+            }).attr('src', src);
+        }
+
+        function readImageFile(file) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $("html").animate({
+                        scrollTop: $("#one").offset().top
+                    }, 500,
+                    function() {
+                        processImage('superres', e.target.result);
+                    });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                // fd = new FormData();
+                // fd.append( 'file', input.files[0] );
+                $('#one').css('min-height', $('#one').outerHeight());
+                $('.image-upload-wrap').hide();
+
+                $("html").animate({
+                        scrollTop: $("#one").offset().top
+                    }, 500,
+                    function() {
+                        processImage('superres', input.files[0]);
+                    });
+
+
+            } else {
+                removeUpload();
+            }
+        }
+
+
+        function removeUpload() {
+            $('.file-upload-input').val('');
+            $('.file-upload-content').hide();
+            $('.image-upload-wrap').show();
+
+            $('#topheader').html("<h2 style='color:#497370;'>Perform SIM reconstruction</h2><p style='color:#497370;'>Upload a structured illumination patterned TIFF image.</p>");
+            $('#beer-slider-container .beer-slider').remove();
+            $('#menubtns').hide();
+            $('.file-upload-image').off('load');
+            window.cropped = true;
+            $('#cropdiv').hide();
+            $('#cropdiv').html("<br><img src='' id='cropimg' alt=''>");
+            window.croptoolShown = false;
+
+            $('html').animate({
+                scrollTop: $('#one').offset().top
+            }, 500);
+
+        }
+        $('.image-upload-wrap').bind('dragover', function() {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function() {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+
+
+        function revertImage() {
+            $('.file-upload-image').replaceWith(origImg);
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function processImage(cmd, file) {
             // to use the hosted server
-             SERVER_URL = 'https://vsr-sim.charles-christensen.com/'
+            SERVER_URL = 'https://vsr-sim.charles-christensen.com/'
             // to use localhost let this variable be empty
             // SERVER_URL = ''
 
-			window.lastcmd = cmd;
+            window.lastcmd = cmd;
 
-			$('#beer-slider-container .beer-slider').remove();
-			// $('.file-upload-content').show();
+            $('#beer-slider-container .beer-slider').remove();
+            // $('.file-upload-content').show();
 
-			var fd = new FormData();
-			fd.append( 'file', file); //);
+            var fd = new FormData();
+            fd.append('file', file); //);
 
-			fd.append( 'cmd', cmd);
-			fd.append( 'cropped', window.coords);
+            fd.append('cmd', cmd);
+            fd.append('cropped', window.coords);
 
-			// $('#gifdiv').show();
-			showprogressbar();
-			// $('.file-upload-image').css('opacity','0.2');
+            // $('#gifdiv').show();
+            showprogressbar();
+            // $('.file-upload-image').css('opacity','0.2');
 
-			$.post({
-				url: SERVER_URL + 'testform',
-				data: fd,
-				processData: false,
-				contentType: false,
-				enctype: 'multipart/form-data',
-				cache:false,
-				xhr: function() {
-					var myXhr = new window.XMLHttpRequest();
-					if(myXhr.upload) {
-						myXhr.upload.addEventListener('progress',progress, false);
-					}
-					return myXhr;
-				},
-			},function(data){
-				console.log('computation complete',data);
+            $.post({
+                url: SERVER_URL + 'testform',
+                data: fd,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                cache: false,
+                xhr: function() {
+                    var myXhr = new window.XMLHttpRequest();
+                    if (myXhr.upload) {
+                        myXhr.upload.addEventListener('progress', progress, false);
+                    }
+                    return myXhr;
+                },
+            }, function(data) {
+                console.log('computation complete', data);
 
-				if(cmd == 'download') {
-					window.open(data, '_blank');
-					return;
-				}  else {
-					window.outimg = data['2'];
-					// $('.file-upload-image').attr('src', 'data:image/jpeg;base64, ' + data);
-					// $('.file-upload-content').css('display','none'); // already hidden
+                if (cmd == 'download') {
+                    window.open(data, '_blank');
+                    return;
+                } else {
+                    window.outimg = data['2'];
+                    // $('.file-upload-image').attr('src', 'data:image/jpeg;base64, ' + data);
+                    // $('.file-upload-content').css('display','none'); // already hidden
 
-					$('#beer-slider-container').html("<div class='beer-slider' data-beer-label='Wide-field projection' data-start='50' style='display:none;max-width:1000px;margin:0 auto;'> <img id='imgbefore' src=''> <div class='beer-reveal' data-beer-label='VSR-SIM'> <img id='imgafter' src=''> </div> </div>");
+                    $('#beer-slider-container').html("<div class='beer-slider' data-beer-label='Wide-field projection' data-start='50' style='display:none;max-width:1000px;margin:0 auto;'> <img id='imgbefore' src=''> <div class='beer-reveal' data-beer-label='VSR-SIM'> <img id='imgafter' src=''> </div> </div>");
 
-					$('#imgafter').on('load',function() {
+                    $('#imgafter').on('load', function() {
 
-						var maxw = this.naturalWidth;
+                        var maxw = this.naturalWidth;
 
-						$('#imgbefore').on('load',async function() {
-							while(window.loading) {
-								await sleep(100);
-							}
+                        $('#imgbefore').on('load', async function() {
+                            while (window.loading) {
+                                await sleep(100);
+                            }
 
-							$('#progressbar').hide();
-							$('#menubtns').css('display','table');
-							$('#topheader').html("<h2 style='color:#448ccf;'>Your reconstructed image</h2><p style='color:#448ccf;'>See the difference by using the slider!</p> ");
+                            $('#progressbar').hide();
+                            $('#menubtns').css('display', 'table');
+                            $('#topheader').html("<h2 style='color:#448ccf;'>Your reconstructed image</h2><p style='color:#448ccf;'>See the difference by using the slider!</p> ");
 
-							if(maxw < 1000) {
-								$('#beer-slider-container .beer-slider').css('max-width',maxw);
-							}
-							$('#beer-slider-container .beer-slider').css('display','block');
+                            if (maxw < 1000) {
+                                $('#beer-slider-container .beer-slider').css('max-width', maxw);
+                            }
+                            $('#beer-slider-container .beer-slider').css('display', 'block');
 
-							$( "#beer-slider-container .beer-slider" ).each( function( index, el ) {
-								$( el ).BeerSlider( {start: $( el ).data( "start" ) } )
-							});
-						}).attr('src', SERVER_URL + data['1']); //attr('src', 'static/images/data/' + data['1'] + '.jpg');
-					}).attr('src', SERVER_URL + data['0']); //.attr('src', 'data:image/jpeg;base64, ' + imgs['0']);
+                            $("#beer-slider-container .beer-slider").each(function(index, el) {
+                                $(el).BeerSlider({
+                                    start: $(el).data("start")
+                                })
+                            });
+                        }).attr('src', SERVER_URL + data['1']); //attr('src', 'static/images/data/' + data['1'] + '.jpg');
+                    }).attr('src', SERVER_URL + data['0']); //.attr('src', 'data:image/jpeg;base64, ' + imgs['0']);
 
-				}
+                }
 
-				$('.file-upload-image').css('opacity','1');
-				$('#gifdiv').hide();
-			});
-		}
+                $('.file-upload-image').css('opacity', '1');
+                $('#gifdiv').hide();
+            });
+        }
 
-		function downloadImage() {
-			window.open(window.outimg);
-			// var url = 'testform';
-			// var form = $('<form action="' + url + '" id="form" method="post">/></form>');
+        function downloadImage() {
+            window.open(window.outimg);
+            // var url = 'testform';
+            // var form = $('<form action="' + url + '" id="form" method="post">/></form>');
 
-			// $('<input>').attr({
-			// 	type: 'hidden',
-			// 	name: 'file'
-			// }).val($('.file-upload-image').attr('src')).appendTo(form);
-			// $('<input>').attr({
-			// 	type: 'hidden',
-			// 	name: 'cmd'
-			// }).val('download').appendTo(form);
+            // $('<input>').attr({
+            // 	type: 'hidden',
+            // 	name: 'file'
+            // }).val($('.file-upload-image').attr('src')).appendTo(form);
+            // $('<input>').attr({
+            // 	type: 'hidden',
+            // 	name: 'cmd'
+            // }).val('download').appendTo(form);
 
-			// $('body').append(form);
-			// form.submit();
-		}
+            // $('body').append(form);
+            // form.submit();
+        }
 
-		function uploadImage() {
+        function uploadImage() {
 
-			$input = $('<input>').attr({
-				type: 'file',
-				onchange: 'readURL(this)'
-			});
-			$input.click();
+            $input = $('<input>').attr({
+                type: 'file',
+                onchange: 'readURL(this)'
+            });
+            $input.click();
 
-		}
+        }
+    </script>
+    <style>
+        #imgmenu {
+            margin: 0 auto 10px auto;
+            max-width: 550px;
+        }
 
-</script>
-<style>
+        #imgmenu .menubtn {
+            float: left;
+        }
 
-	#imgmenu {
-		margin: 0 auto 10px auto;
-		max-width: 550px;
-	}
+        .menubtn {
+            background-color: #204d74;
+            padding: 20px 10px;
+            margin: 5px;
+            cursor: pointer;
+            min-width: 110px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
 
-	#imgmenu .menubtn {
-		float:left;
-	}
+        .menubtn:hover {
+            opacity: 0.5;
+        }
 
-.menubtn {
-	background-color:#204d74;
-	padding:20px 10px;
-	margin:5px;
-	cursor:pointer;
-	min-width:110px;
-	border-radius: 10px;
-	border: 1px solid #ccc;
-	font-size: 14px;
-}
+        .enhancebtn {
+            margin: 10px;
+            padding: 55px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
 
-.menubtn:hover {
-	opacity: 0.5;
-}
+        #compareBtn {
+            padding: 19px 12px;
+            border-radius: 10px;
 
-.enhancebtn {
-	margin:10px;
-	padding:55px;
-	font-size:1.2em;
-	font-weight:bold;
-}
-
-#compareBtn {
-	padding: 19px 12px;
-	border-radius: 10px;
-
-}
-
-</style>
-
+        }
+    </style>
 
 
-	</head>
+
+</head>
 
 
-	<body class="landing is-preload">
+<body class="landing is-preload">
 
-		<!-- Page Wrapper -->
-			<div id="page-wrapper">
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
 
-				<!-- Header -->
-					<header id="header" class="alt">
-						<h1 style="letter-spacing:5px;color: white; font-family: 'Montserrat',sans-serif;"><a
-                                href="#"><span style="font-weight: 300;">VSR-</span><span style="font-weight: 600;">SIM</span></a></h1>
-						<nav id="nav">
-							<ul>
-								<li class="special">
-									<a href="#menu" class="menuToggle"><span>Menu</span></a>
-									<div id="menu">
-										<ul>
-											<li><a style="cursor: pointer;" onclick="howitworks.open();">Read more</a></li>
-											<li><a style="cursor: pointer;" onclick="contact.open();">Contact</a></li>
-											<!-- <li><a style="cursor: pointer;" onclick="signup.open();">Sign Up</a></li>
+        <!-- Header -->
+        <header id="header" class="alt">
+            <h1 style="letter-spacing:5px;color: white; font-family: 'Montserrat',sans-serif;"><a href="#"><span style="font-weight: 300;">VSR-</span><span style="font-weight: 600;">SIM</span></a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="special">
+                        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                        <div id="menu">
+                            <ul>
+                                <li><a style="cursor: pointer;" onclick="howitworks.open();">Read more</a></li>
+                                <li><a style="cursor: pointer;" onclick="contact.open();">Contact</a></li>
+                                <!-- <li><a style="cursor: pointer;" onclick="signup.open();">Sign Up</a></li>
 											<li><a style="cursor: pointer;" onclick="signup.open();">Log In</a></li> -->
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</nav>
-					</header>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
 
-				<!-- Banner -->
-					<section id="banner" class="gradientBackground">
-						<div class="inner">
-							<header>
-								<h2 style="margin-bottom:40px;letter-spacing:7px; font-size: 50px;color: white;
+        <!-- Banner -->
+        <section id="banner" class="gradientBackground">
+            <div class="inner">
+                <header>
+                    <h2 style="margin-bottom:40px;letter-spacing:7px; font-size: 50px;color: white;
                                     font-family: 'Montserrat',sans-serif;"> <span style="font-weight: 300;">VSR-</span><span style="font-weight: 600;">SIM</span> </h2>
-							</header>
-							<p style="margin-bottom:40px;letter-spacing:7px; font-size: 25px;color: white; font-family:
-                                                  'Montserrat',sans-serif;">Spatio-temporal Vision Transformer <br/> for Super-resolution Microscopy</p>
-                            <p style="text-transform: none;font-style:italic;">The paper is currently in review. A link
-                            to the preprint:</p>
-							<p style="text-transform: none;" > <i class="fa fa-book"></i>
-                            Preprint <a style="color:#0087F7;letter-spacing:3px;" target="_blank" href="https://arxiv.org/abs/2203.00030">https://arxiv.org/abs/2203.00030</a> </p>
-<p style='text-transform: none;'><i style='' class="fa fa-github"></i> Source code at <a style="color:#0087F7;letter-spacing:3px;" target='_blank' href='http://github.com/charlesnchr/VSR-SIM'>charlesnchr/VSR-SIM</a> </p>
-							<ul style="margin-top:100px; padding:30px;" class="actions special">
-									<li><a class="button primary" onclick="uploadImage();">Reconstruct now</a></li>
-							</ul>
-						</div>
+                </header>
+                <p style="margin-bottom:40px;letter-spacing:7px; font-size: 25px;color: white; font-family:
+                                                  'Montserrat',sans-serif;">Spatio-temporal Vision Transformer <br /> for Super-resolution Microscopy</p>
+                <p style="text-transform: none;font-style:italic;">The paper is currently in review. A link
+                    to the preprint:</p>
+                <p style="text-transform: none;"> <i class="fa fa-book"></i>
+                    Preprint <a style="color:#0087F7;letter-spacing:3px;" target="_blank" href="https://arxiv.org/abs/2203.00030">https://arxiv.org/abs/2203.00030</a> </p>
+                <p style='text-transform: none;'><i style='' class="fa fa-github"></i> Source code at <a style="color:#0087F7;letter-spacing:3px;" target='_blank' href='http://github.com/charlesnchr/VSR-SIM'>charlesnchr/VSR-SIM</a> </p>
+                <ul style="margin-top:100px; padding:30px;" class="actions special">
+                    <li><a class="button primary" onclick="$('html, body').animate({ scrollTop: $('#one').offset().top
+                                                  },500);">Reconstruct now</a></li>
+                </ul>
+            </div>
 
 
-						<a href="#" onclick="$('html, body').animate({ scrollTop: $('#one').offset().top },500);" class="more">Try now</a>
-					</section>
+            <a href="#" onclick="$('html, body').animate({ scrollTop: $('#one').offset().top },500);" class="more">Try now</a>
+        </section>
 
-				<!-- Intro -->
+        <!-- Intro -->
 
-				<section id="intro" class="wrapper style0 special">
-					<div class="inner">
-						<header class="major">
-							<h2>Read more or try it out now below</h2>
-							<p>See the preprint paper for more information on the method. <br> You can see some
-                            example outputs below.</p>
-						</header>
-						<p style='font-size: 30px;'><i style='font-size: 35px;' class="fa fa-github"></i> Get the source code now at <a style="font-weight: bold;" target='_blank' href='http://github.com/charlesnchr/VSR-SIM'>GitHub</a>. </p>
-						<p style="font-style:italic;font-weight:
-                        bold;max-width:650px;margin-left:auto;margin-right:auto;">Want to see how it works? <br><span
-                        style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own SIM stacks.
-                        </p><p>You
-                        can also use the <a style='font-weight:bold;font-style:italic;' href='https://vsr-sim.charles-christensen.com/images'>VSR-SIM Test
-                    Images</a> that consist of simulated images and data from a SLM-based SIM microscopy. <br> </span></p>
-					</div>
-				</section>
+        <section id="intro" class="wrapper style0 special">
+            <div class="inner">
+                <header class="major">
+                    <h2>Read more or try it out now below</h2>
+                    <p>See the preprint paper for more information on the method. <br> You can see some
+                        example outputs below.</p>
+                </header>
+                <p style='font-size: 30px;'><i style='font-size: 35px;' class="fa fa-github"></i> Get the source code now at <a style="font-weight: bold;" target='_blank' href='http://github.com/charlesnchr/VSR-SIM'>GitHub</a>. </p>
+                <p style="font-style:italic;font-weight:
+                        bold;max-width:650px;margin-left:auto;margin-right:auto;">Want to see how it works? <br><span style="font-style: normal;font-weight:normal;"> Give VSR-SIM a try with your own SIM stacks.
+                </p>
+                <p>You
+                    can also use the <a style='font-weight:bold;font-style:italic;' href='VSR-SIM_Test_Images.zip'>VSR-SIM Test
+                        Images</a> that consist of simulated images and data from a SLM-based SIM microscopy. <br> </span></p>
+            </div>
+        </section>
 
 
 
-				<!-- One -->
-					<section id="one" class="wrapper style1 special">
-						<div class="inner">
-								<header id="topheader" style="color:#646C7F;">
-										<h2 id="file_upload_heading" style="color:#497370;">Perform SIM reconstruction</h2>
-										<p style="color:#497370;">Upload a structured illumination patterned TIFF image</p>
-									</header>
+        <!-- One -->
+        <section id="one" class="wrapper style1 special">
+            <div class="inner">
+                <header id="topheader" style="color:#646C7F;">
+                    <h2 id="file_upload_heading" style="color:#497370;">Perform SIM reconstruction with VSR-SIM</h2>
+                    <p style="color:#497370;">
+                    <a href="https://huggingface.co/spaces/charlesnchr/VSR-SIM"
+                        target="_blank">🤗 Hugging Face App</a> for VSR-SIM</p>
+                </header>
 
-									<div id="file-upload" class="file-upload">
-										<div class="image-upload-wrap">
-											<input id="file-upload-input" class="file-upload-input" type="file" onchange="readURL(this);" accept="image/*">
-											<div class="drag-text">
-												Drag and drop a file <span style="font-weight:bold;">or click</span> to start
-											</div>
-										</div>
-										<div id="progressbar"></div>
-										<div class="file-upload-content" style="position:relative;">
-												<div id="gifdiv"></div>
-												<div id="displayed_img"><img id="file-upload-image" class="file-upload-image" src="#" alt="Image"></div>
-											</div>
-											<div id="beer-slider-container"></div>
-										</div>
-										<br>
-										<div id="imgmenu">
+                <a href="https://huggingface.co/spaces/charlesnchr/VSR-SIM" target="_blank"><img style="width:100%;" src='static/images/huggingface.png'/></a>
 
-											<!-- <div class='menubtn enhancebtn' style='' onclick="processImage('segment')">Enhance!</div> -->
-											<!-- <span class="button-checkbox" style='float:left;margin:5px;'>
+                <br>
+                <div id="imgmenu">
+
+                    <!-- <div class='menubtn enhancebtn' style='' onclick="processImage('segment')">Enhance!</div> -->
+                    <!-- <span class="button-checkbox" style='float:left;margin:5px;'>
 												<button onmouseout="compareImage()" onmouseover="compareImage()" onclick='compareImage()' id='compareBtn' type="button" class="btn" data-color="info">Compare</button>
 												<input type="checkbox" class="hidden"/>
 											</span> -->
-											<!-- <div style='float:right;padding:5px;display:table;height:200px;width:300px;'> -->
-												<div style="display:none;margin:auto;" id="menubtns">
-														<!-- <div class='menubtn' style='background-color: #f0ad4e;' onclick="revertImage()">Reset</div> -->
-														<!-- <div class="menubtn" style="background-color: #204d74;" onclick="processImage('superres')">Reconstruct</div> -->
-														<div class="menubtn" style="background-color: #0087F7;" onclick="downloadImage()">Download</div>
-														<!-- <div class="menubtn" id="croptoolBtn" style="display:none;background-color: #f0ad4e;" onclick="showCropTool()">Edit crop</div> -->
-														<!-- <div class='menubtn' style='background-color: #5cb85c;' onclick="downloadImage()">Download</div> -->
-														<div class="menubtn" style="background-color: #d9534f;" onclick="removeUpload()">Remove</div>
-													</div>
-										<div id="cropdiv" style="display:none;">
-											<br>
-											<img src="" id="cropimg" alt="">
-											<!-- <div class='menubtn' id='enhanceBtn' style='background-color: #0087F7;' onclick="processImage('enhance')">Enhance</div> -->
-										</div>
+                    <!-- <div style='float:right;padding:5px;display:table;height:200px;width:300px;'> -->
+                    <div style="display:none;margin:auto;" id="menubtns">
+                        <!-- <div class='menubtn' style='background-color: #f0ad4e;' onclick="revertImage()">Reset</div> -->
+                        <!-- <div class="menubtn" style="background-color: #204d74;" onclick="processImage('superres')">Reconstruct</div> -->
+                        <div class="menubtn" style="background-color: #0087F7;" onclick="downloadImage()">Download</div>
+                        <!-- <div class="menubtn" id="croptoolBtn" style="display:none;background-color: #f0ad4e;" onclick="showCropTool()">Edit crop</div> -->
+                        <!-- <div class='menubtn' style='background-color: #5cb85c;' onclick="downloadImage()">Download</div> -->
+                        <div class="menubtn" style="background-color: #d9534f;" onclick="removeUpload()">Remove</div>
+                    </div>
+                    <div id="cropdiv" style="display:none;">
+                        <br>
+                        <img src="" id="cropimg" alt="">
+                        <!-- <div class='menubtn' id='enhanceBtn' style='background-color: #0087F7;' onclick="processImage('enhance')">Enhance</div> -->
+                    </div>
 
-									</div>
-<p style="color:#497370;"> Note
-                that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. Furthermore, batch reconstruction
-                of video sequence SIM data is not supported due to both bandwidth and computational limitations — see
-                the <a href="http://github.com/charlesnchr/VSR-SIM">Github</a> repository to set this up. However, single SIM stacks with motion between frames should benefit
-from the reconstruction with VSR-SIM above. </p>
-						</div>
-					</section>
+                </div>
+                <p style="color:#497370;"> Note
+                    that the currently served model is trained on 9-frame SIM stacks of 512x512 resolution. Furthermore, batch reconstruction
+                    of video sequence SIM data is not supported due to both bandwidth and computational limitations — see
+                    the <a href="http://github.com/charlesnchr/VSR-SIM">Github</a> repository to set this up. However, single SIM stacks with motion between frames should benefit
+                    from the reconstruction with VSR-SIM above. </p>
+            </div>
+        </section>
 
 
 
-			<section id="two" class="wrapper style3 special">
+        <section id="two" class="wrapper style3 special">
 
-					<div class="inner">
-						<header class="major">
-							<h2>Examples</h2>
-							<p>See the difference between reconstructions from VSR-SIM and:
+            <div class="inner">
+                <header class="major">
+                    <h2>Examples</h2>
+                    <p>See the difference between reconstructions from VSR-SIM and:
 
-                            <div style="display:table;margin-left:auto;margin-right:auto;">
+                    <div style="display:table;margin-left:auto;margin-right:auto;">
 
-                            <ul style="text-align:left;">
-                                <li>
+                        <ul style="text-align:left;">
+                            <li>
                                 (a) wide-field projection of
-                            the SIM stack and
-                                </li>
-                                <li>(b) our previous method <a href="http://ml-sim.github.io">ML-SIM</a> </li><li
-                                                               style=" list-style-type:
-                                                               none;font-style:italic;margin-left:30px;"> &#8212; source code also at Github: <a
-                                                                 href='http://github.com/charlesnchr/ML-SIM'>charlesnchr/ML-SIM</a>
+                                the SIM stack and
                             </li>
-                            </ul>
+                            <li>(b) our previous method <a href="http://ml-sim.github.io">ML-SIM</a> </li>
+                            <li style=" list-style-type:
+                                                               none;font-style:italic;margin-left:30px;"> &#8212; source code also at Github: <a href='http://github.com/charlesnchr/ML-SIM'>charlesnchr/ML-SIM</a>
+                            </li>
+                        </ul>
 
-                            </div>
+                    </div>
 
-                            </p>
-						</header>
-						<div style='display:table;margin-left:auto;margin-right:auto;'>
-						</div>
-						<div class="beer-slider" data-beer-label="Wide-field" data-start="50">
-							<img src="static/images/lr_microtubules.png">
-							<div class="beer-reveal" data-beer-label="VSR-SIM">
-								<img src="static/images/sr_microtubules.png">
-							</div>
-						</div>
-						<p style="font-style:italic;">Microtubules imaged during sample drift. Motion blur manifests in
-                        the wide-field projection.</p>
-						<br>
-						<div class="beer-slider" data-beer-label="ML-SIM" data-start="50">
-							<img src="static/images/mlsim_dogs.png">
-							<div class="beer-reveal" data-beer-label="VSR-SIM">
-								<img src="static/images/sr_dogs.png">
-							</div>
-						</div>
-						<p style="font-style:italic;">Simulated SIM image sequence from nature documentary dataset.
-                        Motion blur is reconstructed into motion artefacts.</p>
-					</div>
-				</section>
-
-
-				<!-- Footer -->
-				<div id="dialog" title="Examples to play with" style="display:none;">
-				<div class="inner gallery">
-					<div class="row">
-						<div class="column">
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/baboon.png');"></div>
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/comic.png');"></div>
-						</div>
-						<div class="column">
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/landscape.jpg');"></div>
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/monkey.jpg');"></div>
-						</div>
-						<div class="column">
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/portrait.jpg');"></div>
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/classphoto/class-group.jpg');">></div>
-						</div>
-						<div class="column">
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/classphoto/Good.jpg');"></div>
-						<div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/DSC_2211.jpg');"></div>
-						</div>
-					</div>
-				</div>
-				</div>
-
-				<!-- Sign up modal -->
-				<div id="signup" style="display: none;">
-				<iframe src="generic.html" frameborder="0" style="top:0; left:0; bottom:0; right:0; width:100%; height:750px; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
-				</div>
+                    </p>
+                </header>
+                <div style='display:table;margin-left:auto;margin-right:auto;'>
+                </div>
+                <div class="beer-slider" data-beer-label="Wide-field" data-start="50">
+                    <img src="static/images/lr_microtubules.png">
+                    <div class="beer-reveal" data-beer-label="VSR-SIM">
+                        <img src="static/images/sr_microtubules.png">
+                    </div>
+                </div>
+                <p style="font-style:italic;">Microtubules imaged during sample drift. Motion blur manifests in
+                    the wide-field projection.</p>
+                <br>
+                <div class="beer-slider" data-beer-label="ML-SIM" data-start="50">
+                    <img src="static/images/mlsim_dogs.png">
+                    <div class="beer-reveal" data-beer-label="VSR-SIM">
+                        <img src="static/images/sr_dogs.png">
+                    </div>
+                </div>
+                <p style="font-style:italic;">Simulated SIM image sequence from nature documentary dataset.
+                    Motion blur is reconstructed into motion artefacts.</p>
+            </div>
+        </section>
 
 
-				<!-- contact modal -->
-				<div id="contact" style="display: none;">
-					<div class="container">
-					<h2>Get in touch!</h2>
-					<form action="/action_page.php">
-						<label for="fname">Name</label>
-						<input type="text" id="fname" name="firstname" placeholder="Your name..">
+        <!-- Footer -->
+        <div id="dialog" title="Examples to play with" style="display:none;">
+            <div class="inner gallery">
+                <div class="row">
+                    <div class="column">
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/baboon.png');"></div>
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/comic.png');"></div>
+                    </div>
+                    <div class="column">
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/landscape.jpg');"></div>
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/monkey.jpg');"></div>
+                    </div>
+                    <div class="column">
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/portrait.jpg');"></div>
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/classphoto/class-group.jpg');">></div>
+                    </div>
+                    <div class="column">
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/classphoto/Good.jpg');"></div>
+                        <div class="exampleImg" onclick="modal.close(); readimg(this);" style="background-image:url('static/images/tests/DSC_2211.jpg');"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-						<label for="lname">Email address</label>
-						<input type="text" id="lname" name="lastname" placeholder="Your email address..">
-
-						<label for="subject">Subject</label>
-						<textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-
-						<input type="submit" value="Submit" onclick="contact.close();return false;">
-					</form>
-					</div>
-				</div>
+        <!-- Sign up modal -->
+        <div id="signup" style="display: none;">
+            <iframe src="generic.html" frameborder="0" style="top:0; left:0; bottom:0; right:0; width:100%; height:750px; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
+        </div>
 
 
-				<!-- Footer -->
-				<footer id="footer">
-					<ul class="copyright" style="margin-bottom:0px">
-						<li><a style="cursor: pointer;" onclick="howitworks.open();">Read more</a></li>
-					</ul>
-					<ul class="copyright" style="margin-bottom:0px">
-						<li><a style='cursor:pointer;' onclick="termsofuse.open();">Terms of Use</a></li>
-					</ul>
-					<ul class="copyright" style="margin-bottom:0px">
-						<li><a style='cursor:pointer;' onclick="privacypolicy.open();">Privacy Policy</a></li>
-					</ul>
-					<!-- <ul class="copyright" style="margin-bottom:0px">
+        <!-- contact modal -->
+        <div id="contact" style="display: none;">
+            <div class="container">
+                <h2>Get in touch!</h2>
+                <form action="/action_page.php">
+                    <label for="fname">Name</label>
+                    <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+                    <label for="lname">Email address</label>
+                    <input type="text" id="lname" name="lastname" placeholder="Your email address..">
+
+                    <label for="subject">Subject</label>
+                    <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+                    <input type="submit" value="Submit" onclick="contact.close();return false;">
+                </form>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <footer id="footer">
+            <ul class="copyright" style="margin-bottom:0px">
+                <li><a style="cursor: pointer;" onclick="howitworks.open();">Read more</a></li>
+            </ul>
+            <ul class="copyright" style="margin-bottom:0px">
+                <li><a style='cursor:pointer;' onclick="termsofuse.open();">Terms of Use</a></li>
+            </ul>
+            <ul class="copyright" style="margin-bottom:0px">
+                <li><a style='cursor:pointer;' onclick="privacypolicy.open();">Privacy Policy</a></li>
+            </ul>
+            <!-- <ul class="copyright" style="margin-bottom:0px">
 						<li><a style='cursor:pointer;' onclick="datapolicy.open();">Data Policy</a></li>
 					</ul>
 					<ul class="copyright" style="margin-bottom:30px">
 						<li><a style="cursor: pointer;" onclick="contact.open();">Contact Us</a></li>
 					</ul> -->
 
-					<ul class="copyright">
-						<li>&copy; VSR-SIM. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</footer>
+            <ul class="copyright">
+                <li>&copy; VSR-SIM. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </footer>
 
-			</div>
-		<!-- Scripts -->
-			<script src="static/assets/js/jquery.scrollex.min.js"></script>
-			<!-- <script src="static/assets/js/jquery.scrolly.min.js"></script> -->
-			<script src="static/assets/js/browser.min.js"></script>
-			<script src="static/assets/js/breakpoints.min.js"></script>
-			<script src="static/assets/js/util.js"></script>
-			<script src="static/assets/js/main.js"></script>
-
-
-<script>
+    </div>
+    <!-- Scripts -->
+    <script src="static/assets/js/jquery.scrollex.min.js"></script>
+    <!-- <script src="static/assets/js/jquery.scrolly.min.js"></script> -->
+    <script src="static/assets/js/browser.min.js"></script>
+    <script src="static/assets/js/breakpoints.min.js"></script>
+    <script src="static/assets/js/util.js"></script>
+    <script src="static/assets/js/main.js"></script>
 
 
-// instanciate new modal
-var modal = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['custom-class-1', 'custom-class-2'],
-    onOpen: function() {
-        $('#menu').hide();
-    },
-    onClose: function() {
-        $('#menu').show();
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-    }
-});
+    <script>
+        // instanciate new modal
+        var modal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['custom-class-1', 'custom-class-2'],
+            onOpen: function() {
+                $('#menu').hide();
+            },
+            onClose: function() {
+                $('#menu').show();
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+            }
+        });
 
-// set content
-modal.setContent($('#dialog').html());
+        // set content
+        modal.setContent($('#dialog').html());
 
-// add a button
-modal.addFooterBtn('Close', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-    // here goes some logic
-    modal.close();
-});
-
-
-// sign up modal
-var signup = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['signupmodal'],
-    onOpen: function() {
-        $('#menu').hide();
-    },
-    onClose: function() {
-        $('#menu').show();
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-    }
-});
-
-// set content
-signup.setContent($('#signup').html());
-
-// add a button
-signup.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-    // here goes some logic
-    signup.close();
-});
+        // add a button
+        modal.addFooterBtn('Close', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            // here goes some logic
+            modal.close();
+        });
 
 
+        // sign up modal
+        var signup = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['signupmodal'],
+            onOpen: function() {
+                $('#menu').hide();
+            },
+            onClose: function() {
+                $('#menu').show();
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+            }
+        });
 
+        // set content
+        signup.setContent($('#signup').html());
 
-
-
-// howitworks modal
-var howitworks = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['howitworksmodal'],
-    onOpen: function() {
-        $('#menu').hide();
-    },
-    onClose: function() {
-        $('#menu').show();
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-    }
-});
-
-// set content
-    howitworks.setContent("<h2>Read more</h2><p> N.B.: the paper is under review. A link to the preprint is provided. Also provided is a link to the publication of our previous method ML-SIM. </p> <p>Pre-print paper on arXiv: <a target='_blank' href='https://arxiv.org/abs/2203.00030'>https://arxiv.org/abs/2203.00030</a></p><p>ML-SIM journal publication: <a target='_blank' href='https://doi.org/10.1364/BOE.414680'>https://doi.org/10.1364/BOE.414680</a></p>");
-
-// add a button
-howitworks.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-    // here goes some logic
-    howitworks.close();
-});
-
-
-
-
-// contact modal
-var contact = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['contactmodal'],
-    onOpen: function() {
-        $('#menu').hide();
-    },
-    onClose: function() {
-        $('#menu').show();
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-    }
-});
-
-// set content
-contact.setContent($('#contact').html());
-
-// add a button
-contact.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-    // here goes some logic
-    contact.close();
-});
+        // add a button
+        signup.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            // here goes some logic
+            signup.close();
+        });
 
 
 
 
 
 
-// termsofuse modal
-var termsofuse = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['howitworksmodal'],
-    onOpen: function() {
-        $('#menu').hide();
-    },
-    onClose: function() {
-        $('#menu').show();
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-    }
-});
+        // howitworks modal
+        var howitworks = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['howitworksmodal'],
+            onOpen: function() {
+                $('#menu').hide();
+            },
+            onClose: function() {
+                $('#menu').show();
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+            }
+        });
 
-// set content
-termsofuse.setContent("<h2>Terms of use</h2><p>1. Unless otherwise stated, copyright in this site belongs to VSR-SIM. The stories can be copied and redistributed for any purpose under Creative Commons Attribution 4.0 International License (CC BY 4.0). However, most of the images are copyright of the photographer or illustrator who made them and are not available under Creative Commons. You cannot use these images without the permission of the creator. See Using our Content for more details.<br><br>2. We make no representation or warranty about the content on this site, including in relation to non-infringement of intellectual property rights. We don’t guarantee that the content will always be accurate, complete or up-to-date. It is intended for general information and not as advice to be relied upon. The views and opinions expressed are those of the authors and do not necessarily reflect the views or opinions of VSR-SIM. <br><br>3. You must not use this site: — to post, share or transmit material which is unlawful or infringes anyone else’s rights — in any way which is abusive, defamatory or obscene or which harasses or distresses anyone or restricts or inhibits their use and enjoyment of the site or otherwise damages our reputation — to transmit software viruses or code designed to interrupt, destroy or compromise the integrity of computer software, hardware or telecommunications equipment <br><br>4. You are responsible for any comments, text, video, audio, images or other content which you post on the site and must obtain any relevant permissions or consents to post this content. You grant us a perpetual, worldwide, non-exclusive, royalty-free and fully transferable right to copy, download, distribute, transmit and adapt your content and waive your moral rights in it.</p>");
+        // set content
+        howitworks.setContent("<h2>Read more</h2><p> N.B.: the paper is under review. A link to the preprint is provided. Also provided is a link to the publication of our previous method ML-SIM. </p> <p>Pre-print paper on arXiv: <a target='_blank' href='https://arxiv.org/abs/2203.00030'>https://arxiv.org/abs/2203.00030</a></p><p>ML-SIM journal publication: <a target='_blank' href='https://doi.org/10.1364/BOE.414680'>https://doi.org/10.1364/BOE.414680</a></p>");
 
-// add a button
-termsofuse.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-    // here goes some logic
-    termsofuse.close();
-});
-
-
-
-
-// privacypolicy modal
-var privacypolicy = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['howitworksmodal'],
-    onOpen: function() {
-        $('#menu').hide();
-    },
-    onClose: function() {
-        $('#menu').show();
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-    }
-});
-
-// set content
-privacypolicy.setContent("<h2>Privacy policy</h2><p>1. Unless otherwise stated, copyright in this site and in the stories in The Long + Short belongs to VSR-SIM. The stories can be copied and redistributed for any purpose under Creative Commons Attribution 4.0 International License (CC BY 4.0). However, most of the images are copyright of the photographer or illustrator who made them and are not available under Creative Commons. You cannot use these images without the permission of the creator. See Using our Content for more details.<br><br>2. We make no representation or warranty about the content on this site or The Long + Short, including in relation to non-infringement of intellectual property rights. We don’t guarantee that the content will always be accurate, complete or up-to-date. It is intended for general information and not as advice to be relied upon. The views and opinions expressed are those of the authors and do not necessarily reflect the views or opinions of VSR-SIM. <br><br>3. You must not use this site: — to post, share or transmit material which is unlawful or infringes anyone else’s rights — in any way which is abusive, defamatory or obscene or which harasses or distresses anyone or restricts or inhibits their use and enjoyment of the site or otherwise damages our reputation — to transmit software viruses or code designed to interrupt, destroy or compromise the integrity of computer software, hardware or telecommunications equipment <br><br>4. You are responsible for any comments, text, video, audio, images or other content which you post on the site and must obtain any relevant permissions or consents to post this content. You grant us a perpetual, worldwide, non-exclusive, royalty-free and fully transferable right to copy, download, distribute, transmit and adapt your content and waive your moral rights in it.</p>");
+        // add a button
+        howitworks.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            // here goes some logic
+            howitworks.close();
+        });
 
 
 
 
-// add a button
-privacypolicy.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-    // here goes some logic
-    privacypolicy.close();
-});
+        // contact modal
+        var contact = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['contactmodal'],
+            onOpen: function() {
+                $('#menu').hide();
+            },
+            onClose: function() {
+                $('#menu').show();
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+            }
+        });
+
+        // set content
+        contact.setContent($('#contact').html());
+
+        // add a button
+        contact.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            // here goes some logic
+            contact.close();
+        });
 
 
 
 
-// datapolicy modal
-var datapolicy = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['howitworksmodal'],
-    onOpen: function() {
-        $('#menu').hide();
-    },
-    onClose: function() {
-        $('#menu').show();
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-    }
-});
-
-// set content
-datapolicy.setContent("<h2>Data policy</h2><p>1. Unless otherwise stated, copyright in this site and in the stories in The Long + Short belongs to VSR-SIM. The stories can be copied and redistributed for any purpose under Creative Commons Attribution 4.0 International License (CC BY 4.0). However, most of the images are copyright of the photographer or illustrator who made them and are not available under Creative Commons. You cannot use these images without the permission of the creator. See Using our Content for more details.<br><br>2. We make no representation or warranty about the content on this site or The Long + Short, including in relation to non-infringement of intellectual property rights. We don’t guarantee that the content will always be accurate, complete or up-to-date. It is intended for general information and not as advice to be relied upon. The views and opinions expressed are those of the authors and do not necessarily reflect the views or opinions of VSR-SIM. <br><br>3. You must not use this site: — to post, share or transmit material which is unlawful or infringes anyone else’s rights — in any way which is abusive, defamatory or obscene or which harasses or distresses anyone or restricts or inhibits their use and enjoyment of the site or otherwise damages our reputation — to transmit software viruses or code designed to interrupt, destroy or compromise the integrity of computer software, hardware or telecommunications equipment <br><br>4. You are responsible for any comments, text, video, audio, images or other content which you post on the site and must obtain any relevant permissions or consents to post this content. You grant us a perpetual, worldwide, non-exclusive, royalty-free and fully transferable right to copy, download, distribute, transmit and adapt your content and waive your moral rights in it.</p>");
-
-// add a button
-datapolicy.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-    // here goes some logic
-    datapolicy.close();
-});
 
 
-</script>
+        // termsofuse modal
+        var termsofuse = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['howitworksmodal'],
+            onOpen: function() {
+                $('#menu').hide();
+            },
+            onClose: function() {
+                $('#menu').show();
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+            }
+        });
 
-			<script>
-				$.fn.BeerSlider = function( options ) {
-					options = options || {};
-					return this.each( function () {
-						new BeerSlider( this, options );
-					});
-				};
-				$( ".beer-slider" ).each( function( index, el ) {
-					$( el ).BeerSlider( {start: $( el ).data( "start" ) } )
-				});
-			</script>
+        // set content
+        termsofuse.setContent("<h2>Terms of use</h2><p>1. Unless otherwise stated, copyright in this site belongs to VSR-SIM. The stories can be copied and redistributed for any purpose under Creative Commons Attribution 4.0 International License (CC BY 4.0). However, most of the images are copyright of the photographer or illustrator who made them and are not available under Creative Commons. You cannot use these images without the permission of the creator. See Using our Content for more details.<br><br>2. We make no representation or warranty about the content on this site, including in relation to non-infringement of intellectual property rights. We don’t guarantee that the content will always be accurate, complete or up-to-date. It is intended for general information and not as advice to be relied upon. The views and opinions expressed are those of the authors and do not necessarily reflect the views or opinions of VSR-SIM. <br><br>3. You must not use this site: — to post, share or transmit material which is unlawful or infringes anyone else’s rights — in any way which is abusive, defamatory or obscene or which harasses or distresses anyone or restricts or inhibits their use and enjoyment of the site or otherwise damages our reputation — to transmit software viruses or code designed to interrupt, destroy or compromise the integrity of computer software, hardware or telecommunications equipment <br><br>4. You are responsible for any comments, text, video, audio, images or other content which you post on the site and must obtain any relevant permissions or consents to post this content. You grant us a perpetual, worldwide, non-exclusive, royalty-free and fully transferable right to copy, download, distribute, transmit and adapt your content and waive your moral rights in it.</p>");
+
+        // add a button
+        termsofuse.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            // here goes some logic
+            termsofuse.close();
+        });
 
 
-	</body>
+
+
+        // privacypolicy modal
+        var privacypolicy = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['howitworksmodal'],
+            onOpen: function() {
+                $('#menu').hide();
+            },
+            onClose: function() {
+                $('#menu').show();
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+            }
+        });
+
+        // set content
+        privacypolicy.setContent("<h2>Privacy policy</h2><p>1. Unless otherwise stated, copyright in this site and in the stories in The Long + Short belongs to VSR-SIM. The stories can be copied and redistributed for any purpose under Creative Commons Attribution 4.0 International License (CC BY 4.0). However, most of the images are copyright of the photographer or illustrator who made them and are not available under Creative Commons. You cannot use these images without the permission of the creator. See Using our Content for more details.<br><br>2. We make no representation or warranty about the content on this site or The Long + Short, including in relation to non-infringement of intellectual property rights. We don’t guarantee that the content will always be accurate, complete or up-to-date. It is intended for general information and not as advice to be relied upon. The views and opinions expressed are those of the authors and do not necessarily reflect the views or opinions of VSR-SIM. <br><br>3. You must not use this site: — to post, share or transmit material which is unlawful or infringes anyone else’s rights — in any way which is abusive, defamatory or obscene or which harasses or distresses anyone or restricts or inhibits their use and enjoyment of the site or otherwise damages our reputation — to transmit software viruses or code designed to interrupt, destroy or compromise the integrity of computer software, hardware or telecommunications equipment <br><br>4. You are responsible for any comments, text, video, audio, images or other content which you post on the site and must obtain any relevant permissions or consents to post this content. You grant us a perpetual, worldwide, non-exclusive, royalty-free and fully transferable right to copy, download, distribute, transmit and adapt your content and waive your moral rights in it.</p>");
+
+
+
+
+        // add a button
+        privacypolicy.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            // here goes some logic
+            privacypolicy.close();
+        });
+
+
+
+
+        // datapolicy modal
+        var datapolicy = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['howitworksmodal'],
+            onOpen: function() {
+                $('#menu').hide();
+            },
+            onClose: function() {
+                $('#menu').show();
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+            }
+        });
+
+        // set content
+        datapolicy.setContent("<h2>Data policy</h2><p>1. Unless otherwise stated, copyright in this site and in the stories in The Long + Short belongs to VSR-SIM. The stories can be copied and redistributed for any purpose under Creative Commons Attribution 4.0 International License (CC BY 4.0). However, most of the images are copyright of the photographer or illustrator who made them and are not available under Creative Commons. You cannot use these images without the permission of the creator. See Using our Content for more details.<br><br>2. We make no representation or warranty about the content on this site or The Long + Short, including in relation to non-infringement of intellectual property rights. We don’t guarantee that the content will always be accurate, complete or up-to-date. It is intended for general information and not as advice to be relied upon. The views and opinions expressed are those of the authors and do not necessarily reflect the views or opinions of VSR-SIM. <br><br>3. You must not use this site: — to post, share or transmit material which is unlawful or infringes anyone else’s rights — in any way which is abusive, defamatory or obscene or which harasses or distresses anyone or restricts or inhibits their use and enjoyment of the site or otherwise damages our reputation — to transmit software viruses or code designed to interrupt, destroy or compromise the integrity of computer software, hardware or telecommunications equipment <br><br>4. You are responsible for any comments, text, video, audio, images or other content which you post on the site and must obtain any relevant permissions or consents to post this content. You grant us a perpetual, worldwide, non-exclusive, royalty-free and fully transferable right to copy, download, distribute, transmit and adapt your content and waive your moral rights in it.</p>");
+
+        // add a button
+        datapolicy.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            // here goes some logic
+            datapolicy.close();
+        });
+    </script>
+
+    <script>
+        $.fn.BeerSlider = function(options) {
+            options = options || {};
+            return this.each(function() {
+                new BeerSlider(this, options);
+            });
+        };
+        $(".beer-slider").each(function(index, el) {
+            $(el).BeerSlider({
+                start: $(el).data("start")
+            })
+        });
+    </script>
+
+
+</body>
+
 </html>
